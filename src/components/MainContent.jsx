@@ -2,6 +2,8 @@ import { ChevronDown, Edit, Share, HelpCircle, Paperclip, Image, AtSign, Printer
 import ActionButton from './ActionButton'
 import FeatureCard from './FeatureCard'
 
+import blueprintImage from '../assets/blueprint.png';
+
 export default function MainContent() {
   const actions = [
     { label: 'Create Work Order', onClick: () => {} },
@@ -25,12 +27,14 @@ export default function MainContent() {
         '/placeholder.svg?height=40&width=40',
         '/placeholder.svg?height=40&width=40',
         '/placeholder.svg?height=40&width=40',
+        '/placeholder.svg?height=40&width=40',
+        '/placeholder.svg?height=40&width=40',
       ],
       type: 'upload'
     },
     {
       title: 'Turn floor maps and blueprints into organized data—our AI does it all for you!',
-      image: '/placeholder.svg?height=300&width=400',
+      image: blueprintImage,
       type: 'blueprint'
     }
   ]
