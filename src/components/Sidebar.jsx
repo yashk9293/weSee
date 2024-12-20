@@ -1,15 +1,18 @@
-import { Home, FileText, Video, File, Share2, History, Settings, Plus, X, BarChart2 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Home, FileText, Video, File, Share2, History, Settings, Plus, X, BarChart2, Cog } from 'lucide-react'
+import { Link, useNavigate  } from 'react-router-dom'
 
 export default function Sidebar({ isOpen, setIsOpen }) {
+  const navigate = useNavigate();
+
   const navItems = [
     { icon: Home, label: 'Home', to: '/', active: true },
+    { icon: BarChart2, label: 'Mapper AI', to: '/mapper-ai' },
     { icon: FileText, label: 'Templates', to: '/templates' },
     { icon: Video, label: 'Meetings', to: '/meetings' },
     { icon: File, label: 'Files', to: '/files' },
     { icon: Share2, label: 'Shared with me', to: '/shared' },
     { icon: History, label: 'History', to: '/history' },
-    { icon: BarChart2, label: 'Mapper AI', to: '/mapper-ai' },
+    { icon: Cog, label: 'Integrations', to: '/integrations' },
   ]
 
   const collections = [
@@ -30,7 +33,9 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       </div>
 
       <div className="p-4 border-b">
-        <button className="flex items-center w-full px-3 py-2 text-gray-700 hover:bg-gray-100 rounded">
+        <button
+          onClick={() => navigate('/new-chat')} 
+          className="flex items-center w-full px-3 py-2 text-gray-700 hover:bg-gray-100 rounded">
           <Plus className="h-5 w-5 mr-2" />
           New chat
         </button>
