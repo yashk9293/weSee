@@ -5,6 +5,8 @@ import MainContent from './components/MainContent'
 import MapperAiDashboard from './components/MapperAiDashboard'
 import NewChatPage from './components/NewChatPage'
 import IntegrationsPage from './components/IntegrationsPage'
+import Sales from './components/Sales'
+import Salesgpt from './components/Salesgpt'
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -18,6 +20,8 @@ function App() {
           <Route path="/mapper-ai" element={<MapperAiDashboard />} />
           <Route path="/new-chat" element={<NewChatPage />} />
           <Route path="/integrations" element={<IntegrationsPage />} />
+          <Route path="/sales" element={<Sales />} />
+          <Route path="/salesgpt" element={<Salesgpt />} />
         </Routes>
       </div>
     </Router>
