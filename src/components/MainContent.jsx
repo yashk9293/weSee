@@ -3,6 +3,13 @@ import ActionButton from './ActionButton'
 import FeatureCard from './FeatureCard'
 
 import blueprintImage from '../assets/blueprint.png';
+import image from '../assets/main/img.png';
+import excel from '../assets/main/excel.png';
+import gmail from '../assets/main/gmail.png';
+import img1 from '../assets/main/img1.png';
+import img2 from '../assets/main/img2.png';
+import img3 from '../assets/main/img3.png';
+
 
 export default function MainContent() {
   const actions = [
@@ -16,7 +23,7 @@ export default function MainContent() {
   const features = [
     {
       title: 'Commercial onboarding call',
-      image: '/placeholder.svg?height=200&width=200',
+      image: image,
       subtitle: 'Demo - Sana AI Sales Onboar..',
       date: 'Today',
       type: 'video'
@@ -24,11 +31,11 @@ export default function MainContent() {
     {
       title: 'Simplify your workflow—upload data from anyware in any format, and let our AI add it in system.',
       icons: [
-        '/placeholder.svg?height=40&width=40',
-        '/placeholder.svg?height=40&width=40',
-        '/placeholder.svg?height=40&width=40',
-        '/placeholder.svg?height=40&width=40',
-        '/placeholder.svg?height=40&width=40',
+        excel,
+        gmail,
+        img1,
+        img2,
+        img3,
       ],
       type: 'upload'
     },
