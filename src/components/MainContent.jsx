@@ -143,8 +143,8 @@ export default function MainContent() {
           </div>
 
           {/*Input Search Field */}
-          <div className='max-w-5xl mx-auto'>
-            <div className="bg-gray-50 rounded-lg p-4 shadow-md fixed bottom-4 left-1/2 transform -translate-x-1/3 w-full max-w-4xl">
+          <div className='max-w-5xl mx-auto mt-20'>
+            <div className="bg-gray-50 rounded-lg p-4 shadow-md fixed bottom-3 left-1/2 transform -translate-x-1/3 w-full max-w-4xl">
               <div className="flex items-center space-x-4">
                 <div className="flex space-x-2">
                   <button className="p-2 hover:bg-gray-200 rounded">
