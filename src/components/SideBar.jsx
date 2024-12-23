@@ -1,11 +1,19 @@
 import { HomeIcon, LayersIcon, LinkIcon, FileIcon, MessageSquareIcon, HelpCircleIcon } from 'lucide-react'
 import { LuChevronsUpDown } from "react-icons/lu";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 import img2 from '../assets/sidebar/img2.png';
 import img3 from '../assets/sidebar/img3.png';
 
 function Sidebar({ user }) {
+  const navItems = [
+    { icon: HomeIcon, label: 'ホーム', to: '/', active: true },
+    { icon: LayersIcon, label: 'プレイグラウンド', to: '/ai' },
+    { icon: LinkIcon, label: '外部サービス接続', to: '/integrations' },
+    { icon: FileIcon, label: 'ファイル', to: '/meetings' },
+  ]
+
   return (
     <div className="w-80 border-r border-gray-200  flex flex-col">
       <div className="mb-0 p-4">
@@ -13,10 +21,22 @@ function Sidebar({ user }) {
       </div>
       
       <nav className="flex-1 space-y-2 font-medium p-4 border-b">   {/*border-b*/}
-        <NavItem icon={<HomeIcon size={20} />} text="ホーム" active />
+        {/* <NavItem icon={<HomeIcon size={20} />} text="ホーム" active />
         <NavItem icon={<LayersIcon size={20} />} text="プレイグラウンド" />
         <NavItem icon={<LinkIcon size={20} />} text="外部サービス接続" />
-        <NavItem icon={<FileIcon size={20} />} text="ファイル" />
+        <NavItem icon={<FileIcon size={20} />} text="ファイル" /> */}
+        {navItems.map((item, index) => (
+          <Link
+            key={index}
+            to={item.to}
+            className={`flex items-center gap-3 px-3 py-2 rounded-full ${
+              item.active ? 'bg-gray-200 text-purple-600' : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            <item.icon className="h-5 w-5 mr-2" />
+            {item.label}
+          </Link>
+        ))}
       </nav>
 
       <div className='flex flex-col gap-4 overflow-y-auto p-4'>

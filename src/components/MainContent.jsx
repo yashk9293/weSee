@@ -78,8 +78,8 @@ export default function MainContent() {
                 <h3 className="text-center">プレイグラウンド</h3>
 
                 <div className="flex gap-1 justify-center mb-2">
-                <img src={img2} alt="Playground Icon" className="w-8 h-8 object-cover rounded-full" />
-                <h2 className="text-2xl font-bold mb-4 text-center">PLAY GROUND®</h2>
+                  <img src={img2} alt="Playground Icon" className="w-8 h-8 object-cover rounded-full" />
+                  <h2 className="text-2xl font-bold mb-4 text-center">PLAY GROUND®</h2>
                 </div>
 
                 <p className="text-sm leading-relaxed mb-4">
