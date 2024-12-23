@@ -5,6 +5,8 @@ import ActionButton from './ActionButton'
 
 import logo from '../assets/logo.png';
 import searchImg from '../assets/search_img.png'
+import img2 from '../assets/img2.png'
+// import img_2 from '../assets/sidebar/img2.png'
 
 
 export default function MainContent() {
@@ -74,7 +76,12 @@ export default function MainContent() {
                   : 'bg-gradient-to-b from-gray-100 to-white text-gray-400'}`}
                   onClick={() => setActiveBox('PlayGround')}>
                 <h3 className="text-center">プレイグラウンド</h3>
+
+                <div className="flex gap-1 justify-center mb-2">
+                <img src={img2} alt="Playground Icon" className="w-8 h-8 object-cover rounded-full" />
                 <h2 className="text-2xl font-bold mb-4 text-center">PLAY GROUND®</h2>
+                </div>
+
                 <p className="text-sm leading-relaxed mb-4">
                   プレイグラウンド内の作業効率化機能については、Managementseの検索エンジンでリクイックと起動!
                 </p>
@@ -92,7 +99,12 @@ export default function MainContent() {
                   : 'bg-gradient-to-b from-gray-100 to-white text-gray-400'}`}
                   onClick={() => setActiveBox('IntegrateApp')}>
                 <h3 className="text-center">外部サービスに接続</h3>
+
+                <div className="flex justify-center mb-2">
+                {/* <img src={img_2} alt="Playground Icon" className="w-8 h-8 object-cover rounded-full" /> */}
                 <h2 className="text-2xl font-bold mb-4 text-center">Inte-•-grate APP</h2>
+                </div>
+
                 <p className="text-sm leading-relaxed mb-4">
                   外部のアプリへの接続して、より作業の効率化を目指しましょう。
                 </p>
@@ -111,7 +123,12 @@ export default function MainContent() {
                   : 'bg-gradient-to-b from-gray-100 to-white text-gray-400'}`}
                   onClick={() => setActiveBox('AIAgent')}>
                 <h3 className="text-center">カンタン作業効率化 AIエージェント</h3>
+
+                <div className="flex gap-1 justify-center mb-2">
+                {/* <img src={img2} alt="Playground Icon" className="w-8 h-8 object-cover rounded-full" /> */}
                 <h2 className="text-2xl font-bold mb-4 text-center">AI Agent®</h2>
+                </div>
+
                 <p className="text-sm leading-relaxed mb-4">
                   あらゆるファイルやデータは、全部Managementeへアップロードしましょう。
                 </p>
