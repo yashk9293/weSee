@@ -8,7 +8,7 @@ import img3 from '../assets/sidebar/img3.png';
 
 function Sidebar({ user }) {
   const navItems = [
-    { icon: HomeIcon, label: 'ホーム', to: '/', active: true },
+    { icon: HomeIcon, label: 'ホーム', to: '/home', active: true },
     { icon: LayersIcon, label: 'プレイグラウンド', to: '/ai' },
     { icon: LinkIcon, label: '外部サービス接続', to: '/integrations' },
     { icon: FileIcon, label: 'ファイル', to: '/meetings' },
@@ -17,7 +17,10 @@ function Sidebar({ user }) {
   return (
     <div className="w-80 border-r border-gray-200  flex flex-col">
       <div className="mb-0 p-4">
+      <Link to="/">
         <h1 className="text-2xl font-semibold text-purple-400">Managemente®</h1>
+      </Link>
+        
       </div>
       
       <nav className="flex-1 space-y-2 font-medium p-4 border-b">   {/*border-b*/}
