@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Edit, Paperclip, Image, AtSign } from "lucide-react";
 import { IoArrowUpCircleSharp } from "react-icons/io5";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+const EVENT_STREAM_URL = '/scrape';  // Using the proxied URL
 
 import logo from "../assets/logo.png";
 import searchImg from "../assets/search_img.png";
@@ -64,6 +63,7 @@ export default function HomePage() {
   const [hasStarted, setHasStarted] = useState(false);
   const [streamingMessage, setStreamingMessage] = useState('');
   const chatContainerRef = useRef(null);
+  const abortControllerRef = useRef(null);
   
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -71,8 +71,22 @@ export default function HomePage() {
     }
   }, [messages, streamingMessage]);
 
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
   const handleSubmit = async () => {
     if (!input.trim()) return;
+    
+    // Abort any existing request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
     
     setHasStarted(true);
     setMessages(prev => [...prev, { text: input, isAi: false }]);
@@ -81,23 +95,37 @@ export default function HomePage() {
     setStreamingMessage('');
 
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const chat = model.startChat();
-      const result = await chat.sendMessage(input);
-      const response = await result.response;
-      
-      const text = response.text();
+      const response = await fetch(EVENT_STREAM_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: input }),
+        signal: abortControllerRef.current.signal
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
       let currentText = '';
-      
-      for (let i = 0; i < text.length; i++) {
-        currentText += text[i];
+
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) {
+          setMessages(prev => [...prev, { text: currentText, isAi: true }]);
+          setStreamingMessage('');
+          break;
+        }
+
+        const chunk = decoder.decode(value);
+        currentText += chunk;
         setStreamingMessage(currentText);
-        await new Promise(resolve => setTimeout(resolve, 20));
       }
-      
-      setMessages(prev => [...prev, { text: currentText, isAi: true }]);
-      setStreamingMessage('');
     } catch (error) {
+      if (error.name === 'AbortError') {
+        console.log('Request aborted');
+        return;
+      }
       console.error('Error:', error);
       setMessages(prev => [...prev, { 
         text: "申し訳ありません。エラーが発生しました。", 
