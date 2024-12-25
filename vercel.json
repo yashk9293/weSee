@@ -1,6 +1,10 @@
   {
     "rewrites": [
       {
+        "source": "/scrape",
+        "destination": "http://34.56.151.232:3000/scrape"
+      },
+      {
         "source": "/(.*)",
         "destination": "/index.html"
       }
