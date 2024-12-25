@@ -2,14 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Edit, Paperclip, Image, AtSign } from "lucide-react";
 import { IoArrowUpCircleSharp } from "react-icons/io5";
 
-const EVENT_STREAM_URL = '/scrape';  // Using the proxied URL
+// Update the URL to use the relative path to the API route
+const EVENT_STREAM_URL = '/api/scrape';
 
 import logo from "../assets/logo.png";
 import searchImg from "../assets/search_img.png";
 
 const ChatMessage = ({ message, isAi }) => {
-  const messageLines = message.split('\n');
-  
   return (
     <div className={`flex ${isAi ? 'justify-start' : 'justify-end'} mb-6`}>
       {isAi && (
@@ -17,17 +16,17 @@ const ChatMessage = ({ message, isAi }) => {
           AI
         </div>
       )}
-      <div className={`max-w-[80%] rounded-2xl p-4 ${
-        isAi 
-          ? 'bg-white border border-gray-200 shadow-sm' 
-          : 'bg-purple-600 text-white'
-      }`}>
-        {messageLines.map((line, index) => (
-          <React.Fragment key={index}>
-            {line}
-            {index < messageLines.length - 1 && <br />}
-          </React.Fragment>
-        ))}
+      <div 
+        className={`max-w-[80%] rounded-2xl p-4 ${
+          isAi 
+            ? 'bg-white border border-gray-200 shadow-sm' 
+            : 'bg-purple-600 text-white'
+        }`}
+      >
+        <div 
+          dangerouslySetInnerHTML={{ __html: message }}
+          className="prose prose-sm max-w-none"
+        />
       </div>
       {!isAi && (
         <div className="w-8 h-8 rounded-full bg-purple-700 flex items-center justify-center text-white ml-3">
@@ -82,7 +81,6 @@ export default function HomePage() {
   const handleSubmit = async () => {
     if (!input.trim()) return;
     
-    // Abort any existing request
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -104,6 +102,10 @@ export default function HomePage() {
         signal: abortControllerRef.current.signal
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let currentText = '';
@@ -117,6 +119,7 @@ export default function HomePage() {
           break;
         }
 
+        // Decode and append new chunks
         const chunk = decoder.decode(value);
         currentText += chunk;
         setStreamingMessage(currentText);
