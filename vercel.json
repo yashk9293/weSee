@@ -5,18 +5,8 @@
         "destination": "/index.html"
       },
       { 
-        "source": "/api/scrape",
+        "source": "https://ai-mark-lemon.vercel.app/api/scrape",
         "destination": "http://34.56.151.232:3000/scrape"
-      }
-    ],
-    "headers": [
-      {
-        "source": "/api/(.*)",
-        "headers": [
-          { "key": "Access-Control-Allow-Origin", "value": "*" },
-          { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" },
-          { "key": "Access-Control-Allow-Headers", "value": "X-Requested-With, Content-Type, Accept" }
-        ]
       }
     ]
   }
