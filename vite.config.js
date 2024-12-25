@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/scrape': {
+      'https://ai-mark-lemon.vercel.app/api/scrape': {
         target: 'http://34.56.151.232:3000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/scrape/, '/scrape')
