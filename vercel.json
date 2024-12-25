@@ -5,7 +5,7 @@
         "destination": "/index.html"
       },
       { 
-        "source": "https://ai-mark-lemon.vercel.app/api/scrape",
+        "source": "https://wesee-phi.vercel.app/api/scrape",
         "destination": "http://34.56.151.232:3000/scrape"
       }
     ]
