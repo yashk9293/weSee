@@ -3,7 +3,7 @@ import { ChevronDown, Edit, Paperclip, Image, AtSign } from "lucide-react";
 import { IoArrowUpCircleSharp } from "react-icons/io5";
 
 // Update the URL to use the relative path to the API route
-const EVENT_STREAM_URL = '/api/scrape';
+const EVENT_STREAM_URL = '/scrape';
 
 import logo from "../assets/logo.png";
 import searchImg from "../assets/search_img.png";

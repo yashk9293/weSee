@@ -3,10 +3,6 @@
       {
         "source": "/(.*)",
         "destination": "/index.html"
-      },
-      { 
-        "source": "https://wesee-phi.vercel.app/api/scrape",
-        "destination": "http://34.56.151.232:3000/scrape"
       }
     ]
   }

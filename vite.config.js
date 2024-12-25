@@ -5,10 +5,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/scrape': {
+      '/scrape': {
         target: 'http://34.56.151.232:3000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/scrape/, '/scrape')
       }
     }
   }
