@@ -16,7 +16,6 @@ export default async function handler(request) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // Return the response as a readable stream
     return new Response(response.body, {
       status: response.status,
       headers: {
@@ -26,11 +25,15 @@ export default async function handler(request) {
       },
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    console.error('API Error:', error);
+    return new Response(
+      JSON.stringify({ error: 'Internal Server Error', details: error.message }), 
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 }
