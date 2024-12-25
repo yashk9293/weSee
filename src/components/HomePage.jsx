@@ -20,7 +20,7 @@ const ChatMessage = ({ message, isAi }) => {
         className={`max-w-[80%] rounded-2xl p-4 ${
           isAi 
             ? 'bg-white border border-gray-200 shadow-sm' 
-            : 'bg-purple-600 text-white'
+            : 'bg-purple-100 text-white'
         }`}
       >
         <div 
