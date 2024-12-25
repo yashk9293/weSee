@@ -8,32 +8,53 @@ const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 import logo from "../assets/logo.png";
 import searchImg from "../assets/search_img.png";
 
-const ChatMessage = ({ message, isAi }) => (
-<div className={`flex ${isAi ? 'justify-start' : 'justify-end'} mb-4`}>
-    <div className={`max-w-[80%] p-3 rounded-lg ${
-    isAi ? 'bg-gray-100' : 'bg-purple-100'
-    }`}>
-    {message}
+const ChatMessage = ({ message, isAi }) => {
+  const messageLines = message.split('\n');
+  
+  return (
+    <div className={`flex ${isAi ? 'justify-start' : 'justify-end'} mb-6`}>
+      {isAi && (
+        <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white mr-3">
+          AI
+        </div>
+      )}
+      <div className={`max-w-[80%] rounded-2xl p-4 ${
+        isAi 
+          ? 'bg-white border border-gray-200 shadow-sm' 
+          : 'bg-purple-600 text-white'
+      }`}>
+        {messageLines.map((line, index) => (
+          <React.Fragment key={index}>
+            {line}
+            {index < messageLines.length - 1 && <br />}
+          </React.Fragment>
+        ))}
+      </div>
+      {!isAi && (
+        <div className="w-8 h-8 rounded-full bg-purple-700 flex items-center justify-center text-white ml-3">
+          U
+        </div>
+      )}
     </div>
-</div>
-);
+  );
+};
 
 const Header = () => (
-<header className="bg-white border-b sticky top-0 z-10">
+  <header className="bg-white border-b sticky top-0 z-10">
     <div className="flex justify-between items-center px-6 py-3">
-    <div className="flex-1 flex justify-center">
-        <button className="flex items-center space-x-2 px-3 py-1.5 bg-gray-100 rounded-full">
-        <span className="text-purple-400 font-semibold">AI Agent</span>
-        <ChevronDown className="h-4 w-4 text-purple-400" />
+      <div className="flex-1 flex justify-center">
+        <button className="flex items-center space-x-2 px-4 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
+          <span className="text-purple-600 font-semibold">AI Agent</span>
+          <ChevronDown className="h-4 w-4 text-purple-600" />
         </button>
-    </div>
-    <div>
-        <button className="flex items-center space-x-2 px-3 py-1.5 hover:bg-gray-100 rounded-lg">
-        <Edit className="h-4 w-4" />
+      </div>
+      <div>
+        <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <Edit className="h-5 w-5" />
         </button>
+      </div>
     </div>
-    </div>
-</header>
+  </header>
 );
 
 export default function HomePage() {
@@ -41,13 +62,14 @@ export default function HomePage() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [streamingMessage, setStreamingMessage] = useState('');
   const chatContainerRef = useRef(null);
   
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, streamingMessage]);
 
   const handleSubmit = async () => {
     if (!input.trim()) return;
@@ -56,6 +78,7 @@ export default function HomePage() {
     setMessages(prev => [...prev, { text: input, isAi: false }]);
     setInput('');
     setIsLoading(true);
+    setStreamingMessage('');
 
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -63,10 +86,17 @@ export default function HomePage() {
       const result = await chat.sendMessage(input);
       const response = await result.response;
       
-      setMessages(prev => [...prev, { 
-        text: response.text(), 
-        isAi: true 
-      }]);
+      const text = response.text();
+      let currentText = '';
+      
+      for (let i = 0; i < text.length; i++) {
+        currentText += text[i];
+        setStreamingMessage(currentText);
+        await new Promise(resolve => setTimeout(resolve, 20));
+      }
+      
+      setMessages(prev => [...prev, { text: currentText, isAi: true }]);
+      setStreamingMessage('');
     } catch (error) {
       console.error('Error:', error);
       setMessages(prev => [...prev, { 
@@ -79,11 +109,11 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex-1 overflow-hidden flex flex-col h-screen">
+    <div className="flex-1 overflow-hidden flex flex-col h-screen bg-gray-50">
       <Header />
       <main className="flex-1 overflow-hidden flex flex-col p-6">
         {!hasStarted && (
-          <div className="max-w-6xl">    {/*mx-auto */}
+          <div className="max-w-6xl">
             <div className="mb-2 ml-12">
               <img
                 src={logo}
@@ -99,7 +129,7 @@ export default function HomePage() {
 
         <div 
           ref={chatContainerRef}
-          className="flex-1 overflow-y-auto max-w-4xl mx-auto w-full"
+          className="flex-1 overflow-y-auto max-w-3xl mx-auto w-full px-4"
         >
           {messages.map((message, index) => (
             <ChatMessage 
@@ -108,25 +138,31 @@ export default function HomePage() {
               isAi={message.isAi}
             />
           ))}
-          {isLoading && (
-            <div className="flex justify-start mb-4">
-              <div className="bg-gray-100 p-3 rounded-lg">
-                入力中...
-              </div>
+          {streamingMessage && (
+            <ChatMessage 
+              message={streamingMessage}
+              isAi={true}
+            />
+          )}
+          {isLoading && !streamingMessage && (
+            <div className="flex items-center space-x-2 text-gray-500 mb-4">
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100" />
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
             </div>
           )}
         </div>
 
-        <div className="max-w-5xl mx-auto mt-4 w-full">
-          <div className="bg-gray-50 rounded-lg p-4 shadow-md">
-            <div className="flex items-center space-x-2">
-              <button className="p-2 hover:bg-gray-200 rounded">
+        <div className="max-w-3xl mx-auto w-full px-4">
+          <div className="bg-white rounded-xl p-4 shadow-lg">
+            <div className="flex items-center space-x-2 mb-2">
+              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <Paperclip className="h-5 w-5 text-gray-500" />
               </button>
-              <button className="p-2 hover:bg-gray-200 rounded">
+              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <Image className="h-5 w-5 text-gray-500" />
               </button>
-              <button className="p-2 hover:bg-gray-200 rounded">
+              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <AtSign className="h-5 w-5 text-gray-500" />
               </button>
               <button className="p-2 hover:bg-gray-200 rounded">
@@ -136,12 +172,6 @@ export default function HomePage() {
                   className="w-5 h-5"
                 />
               </button>
-              <div className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded hidden">
-                CAD 235665162
-              </div>
-              <span className="text-xs text-muted-foreground hidden">
-                3.5MB
-              </span>
             </div>
             <div className="relative">
               <input
@@ -149,14 +179,14 @@ export default function HomePage() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-                placeholder="Managemente の AI エージェントに質問してみましょう。"
-                className="bg-gray-50 w-full mt-2 px-4 py-2 rounded outline-none pr-10"
+                placeholder="AI エージェントに質問してみましょう。"
+                className="w-full px-4 py-3 rounded-xl bg-gray-50 focus:bg-white border border-gray-200 focus:border-purple-500 outline-none transition-colors"
               />
               <button 
                 onClick={handleSubmit}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-300 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-purple-600 hover:text-purple-700 transition-colors"
               >
-                <IoArrowUpCircleSharp className="w-6 h-6" />
+                <IoArrowUpCircleSharp className="w-7 h-7" />
               </button>
             </div>
           </div>
