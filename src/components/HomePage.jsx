@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Edit, Paperclip, Image, AtSign } from "lucide-react";
 import { IoArrowUpCircleSharp } from "react-icons/io5";
 
-// Update the URL to use the relative path to the API route
 const EVENT_STREAM_URL = '/scrape';
 
 import logo from "../assets/logo.png";
@@ -63,7 +62,8 @@ export default function HomePage() {
   const [streamingMessage, setStreamingMessage] = useState('');
   const chatContainerRef = useRef(null);
   const abortControllerRef = useRef(null);
-  
+  const isFirstResponse = useRef(true);
+
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -80,12 +80,12 @@ export default function HomePage() {
 
   const handleSubmit = async () => {
     if (!input.trim()) return;
-    
+
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
     abortControllerRef.current = new AbortController();
-    
+
     setHasStarted(true);
     setMessages(prev => [...prev, { text: input, isAi: false }]);
     setInput('');
@@ -112,7 +112,7 @@ export default function HomePage() {
 
       while (true) {
         const { done, value } = await reader.read();
-        
+
         if (done) {
           setMessages(prev => [...prev, { text: currentText, isAi: true }]);
           setStreamingMessage('');
@@ -120,9 +120,16 @@ export default function HomePage() {
         }
 
         // Decode and append new chunks
-        const chunk = decoder.decode(value);
+        let chunk = decoder.decode(value);
+        chunk = chunk.replace(/^data:\s*/, '').replace(/Thinking\s*\.\.\./g, '');
         currentText += chunk;
-        setStreamingMessage(currentText);
+        
+        if (isFirstResponse.current) {
+          setStreamingMessage('Thinking... ' + currentText);
+          isFirstResponse.current = false;
+        } else {
+          setStreamingMessage(currentText);
+        }
       }
     } catch (error) {
       if (error.name === 'AbortError') {
