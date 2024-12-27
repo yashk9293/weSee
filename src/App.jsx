@@ -6,6 +6,7 @@ import IntegrationsPage from './components/IntegrationsPage'
 import HomePage from './components/HomePage'
 
 import user from './assets/sidebar/user.png'
+import HandleStream from './components/HandleStream'
 
 function App() {
   const [currentUser] = useState({
@@ -20,6 +21,7 @@ function App() {
       <Sidebar user={currentUser} />
         <Routes>
           <Route path="/" element={<MainContent />} />
+          <Route path="/chat" element={<HandleStream />} />
           <Route path="/home" element={<HomePage/>} />
           <Route path="/integrations" element={<IntegrationsPage/>} />
         </Routes>
