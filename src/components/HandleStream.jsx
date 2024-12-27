@@ -19,6 +19,8 @@ const ChatClient = () => {
     setResponses([]);
     setAllResponsesReceived(false); // Reset this state on new submission
 
+    // tell me how to create a template for preventive maintenance
+
     try {
       const newEventSource = new EventSource(
         `/scrape?message=${encodeURIComponent(message)}`
