@@ -7,6 +7,7 @@ import HomePage from './components/HomePage'
 
 import user from './assets/sidebar/user.png'
 import HandleStream from './components/HandleStream'
+import Homev2Page from './components/Homev2Page'
 
 function App() {
   const [currentUser] = useState({
@@ -17,16 +18,17 @@ function App() {
 
   return (
     <Router>
-    <div className="flex h-screen bg-white text-gray-900">
-      <Sidebar user={currentUser} />
+      <div className="flex h-screen bg-white text-gray-900">
+        <Sidebar user={currentUser} />
         <Routes>
           <Route path="/" element={<MainContent />} />
           <Route path="/chat" element={<HandleStream />} />
-          <Route path="/home" element={<HomePage/>} />
-          <Route path="/integrations" element={<IntegrationsPage/>} />
+          <Route path="/home" element={<Homev2Page />} />
+          <Route path="/home2" element={<HomePage />} />
+          <Route path="/integrations" element={<IntegrationsPage />} />
         </Routes>
-    </div>
-  </Router>
+      </div>
+    </Router>
   )
 }
 
