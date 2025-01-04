@@ -28,7 +28,7 @@ const ChatClient = () => {
       newEventSource.onopen = () => console.log('SSE connection opened');
 
       newEventSource.onmessage = (event) => {
-        console.log('data:', event.data);
+        console.log('data:', event);
         const content = event.data.trim();
         setResponses((prevResponses) => [...prevResponses, content]);
       };
