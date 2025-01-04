@@ -1,4 +1,4 @@
-import { ChevronDown, Edit, Share, HelpCircle, Paperclip, Image, AtSign } from 'lucide-react'
+import { ChevronDown, Edit, Unplug, Paperclip, Image, AtSign } from 'lucide-react'
 import { IoArrowUpCircleSharp } from "react-icons/io5";
 import { useState } from 'react';
 import ActionButton from './ActionButton'
@@ -102,8 +102,9 @@ export default function MainContent() {
                 <h3 className="text-center">外部サービスに接続</h3>
 
                 <div className="flex justify-center mb-2">
-                  {/* <img src={img_2} alt="Playground Icon" className="w-8 h-8 object-cover rounded-full" /> */}
-                  <h2 className="text-2xl font-bold mb-4 text-center">Inte-•-grate APP</h2>
+                  <h2 className="text-2xl font-bold mb-4 text-center">
+                    Inte<Unplug className="inline-block mx-1 rotate-45" />grate APP
+                  </h2>
                 </div>
 
                 <p className="text-sm leading-relaxed mb-4">

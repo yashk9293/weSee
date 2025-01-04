@@ -1,4 +1,4 @@
-import { HomeIcon, LayersIcon, Unplug , FileIcon, MessageSquareIcon } from 'lucide-react'
+import { HomeIcon, Unplug , FileIcon, MessageSquareIcon } from 'lucide-react'
 import { PiGlobeSimpleFill } from "react-icons/pi";
 import { LuChevronsUpDown } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
