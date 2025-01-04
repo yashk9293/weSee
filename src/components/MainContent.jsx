@@ -6,6 +6,7 @@ import ActionButton from './ActionButton'
 import logo from '../assets/logo.png';
 import searchImg from '../assets/search_img.png'
 import img2 from '../assets/img2.png'
+import { Link } from 'react-router-dom';
 // import img_2 from '../assets/sidebar/img2.png'
 
 
@@ -13,12 +14,12 @@ export default function MainContent() {
   const [activeBox, setActiveBox] = useState('PlayGround');
 
   const actions = [
-    { label: '💰会社の資産一覧', onClick: () => {} },
-    { label: '📝ファイルをアップロード', onClick: () => {} },
-    { label: '📅カレンダー', onClick: () => {} },
-    { label: '💻外部サービスに接続する', onClick: () => {} },
-    { label: '🌄Themeを変更', onClick: () => {} },
-    { label: '👼🏻最初の質問をする', onClick: () => {} },
+    { label: '💰会社の資産一覧', onClick: () => { } },
+    { label: '📝ファイルをアップロード', onClick: () => { } },
+    { label: '📅カレンダー', onClick: () => { } },
+    { label: '💻外部サービスに接続する', onClick: () => { } },
+    { label: '🌄Themeを変更', onClick: () => { } },
+    { label: '👼🏻最初の質問をする', onClick: () => { } },
   ]
 
   return (
@@ -46,10 +47,10 @@ export default function MainContent() {
         <div>
           <div className="max-w-6xl mx-auto">
             <div className="mb-2 ml-12">
-              <img 
-                src={logo} 
-                alt="Asset Management AI Agent Logo" 
-                className="w-8 h-8" 
+              <img
+                src={logo}
+                alt="Asset Management AI Agent Logo"
+                className="w-8 h-8"
               />
             </div>
             <p className="text-2xl text-gray-400 mb-8 ml-12">本日は何をサポートしたらよいでしょうか？</p>
@@ -71,10 +72,9 @@ export default function MainContent() {
 
             <div className="flex justify-center space-x-6 pt-0 p-8">
               {/* Play Ground Box */}
-              <div className={`w-1/3 p-5 rounded-lg relative cursor-pointer transition-all duration-300 ${
-                activeBox === 'PlayGround' ? 'bg-gradient-to-b from-blue-500 to-purple-500 text-white'
-                  : 'bg-gradient-to-b from-gray-100 to-white text-gray-400'}`}
-                  onClick={() => setActiveBox('PlayGround')}>
+              <div className={`w-1/3 p-5 rounded-lg relative cursor-pointer transition-all duration-300 ${activeBox === 'PlayGround' ? 'bg-gradient-to-b from-blue-500 to-purple-500 text-white'
+                : 'bg-gradient-to-b from-gray-100 to-white text-gray-400'}`}
+                onClick={() => setActiveBox('PlayGround')}>
                 <h3 className="text-center">プレイグラウンド</h3>
 
                 <div className="flex gap-1 justify-center mb-2">
@@ -88,21 +88,22 @@ export default function MainContent() {
                 <p className="text-sm leading-relaxed mb-14">
                   面倒な複数のツールへの記載格納も、PLAY GROUND機能一本にお任せください!
                 </p>
-                <button className={`font-semibold px-6 py-1 rounded-full border absolute bottom-6 right-6 ${activeBox === 'PlayGround' ? 'text-white' : 'text-gray-400 bg-gray-200'}`}>
-                  使ってみる
-                </button>
+                <Link to="/home">
+                  <button className={`font-semibold px-6 py-1 rounded-full border absolute bottom-6 right-6 ${activeBox === 'PlayGround' ? 'text-white' : 'text-gray-400 bg-gray-200'}`}>
+                    使ってみる
+                  </button>
+                </Link>
               </div>
 
               {/* Inte-grate APP Box */}
-              <div className={`w-1/3 p-5 rounded-lg relative cursor-pointer transition-all duration-300 ${
-                activeBox === 'IntegrateApp' ? 'bg-gradient-to-b from-blue-500 to-purple-500 text-white'
-                  : 'bg-gradient-to-b from-gray-100 to-white text-gray-400'}`}
-                  onClick={() => setActiveBox('IntegrateApp')}>
+              <div className={`w-1/3 p-5 rounded-lg relative cursor-pointer transition-all duration-300 ${activeBox === 'IntegrateApp' ? 'bg-gradient-to-b from-blue-500 to-purple-500 text-white'
+                : 'bg-gradient-to-b from-gray-100 to-white text-gray-400'}`}
+                onClick={() => setActiveBox('IntegrateApp')}>
                 <h3 className="text-center">外部サービスに接続</h3>
 
                 <div className="flex justify-center mb-2">
-                {/* <img src={img_2} alt="Playground Icon" className="w-8 h-8 object-cover rounded-full" /> */}
-                <h2 className="text-2xl font-bold mb-4 text-center">Inte-•-grate APP</h2>
+                  {/* <img src={img_2} alt="Playground Icon" className="w-8 h-8 object-cover rounded-full" /> */}
+                  <h2 className="text-2xl font-bold mb-4 text-center">Inte-•-grate APP</h2>
                 </div>
 
                 <p className="text-sm leading-relaxed mb-4">
@@ -111,22 +112,23 @@ export default function MainContent() {
                 <p className="text-sm leading-relaxed mb-14">
                   メールやCADデータ、ファイル等の格納もIntegrate Appでオールインワン!
                 </p>
-                <button className={`font-semibold px-6 py-1 rounded-full border absolute bottom-6 right-6 ${activeBox === 'IntegrateApp' ? 'text-white' : 'text-gray-400 bg-gray-200'}`}>
-                  使ってみる
-                </button>
+                <Link to="/integrations">
+                  <button className={`font-semibold px-6 py-1 rounded-full border absolute bottom-6 right-6 ${activeBox === 'IntegrateApp' ? 'text-white' : 'text-gray-400 bg-gray-200'}`}>
+                    使ってみる
+                  </button>
+                </Link>
               </div>
 
 
               {/* AI Agent Box */}
-              <div className={`w-1/3 p-5 rounded-lg relative cursor-pointer transition-all duration-300 ${
-                activeBox === 'AIAgent' ? 'bg-gradient-to-b from-blue-500 to-purple-500 text-white'
-                  : 'bg-gradient-to-b from-gray-100 to-white text-gray-400'}`}
-                  onClick={() => setActiveBox('AIAgent')}>
+              <div className={`w-1/3 p-5 rounded-lg relative cursor-pointer transition-all duration-300 ${activeBox === 'AIAgent' ? 'bg-gradient-to-b from-blue-500 to-purple-500 text-white'
+                : 'bg-gradient-to-b from-gray-100 to-white text-gray-400'}`}
+                onClick={() => setActiveBox('AIAgent')}>
                 <h3 className="text-center">カンタン作業効率化 AIエージェント</h3>
 
                 <div className="flex gap-1 justify-center mb-2">
-                {/* <img src={img2} alt="Playground Icon" className="w-8 h-8 object-cover rounded-full" /> */}
-                <h2 className="text-2xl font-bold mb-4 text-center">AI Agent®</h2>
+                  {/* <img src={img2} alt="Playground Icon" className="w-8 h-8 object-cover rounded-full" /> */}
+                  <h2 className="text-2xl font-bold mb-4 text-center">AI Agent®</h2>
                 </div>
 
                 <p className="text-sm leading-relaxed mb-4">
@@ -135,9 +137,11 @@ export default function MainContent() {
                 <p className="text-sm leading-relaxed mb-14">
                   資料のpファイルやデータを簡単に簡単に、よりセキュアに保存することができます。
                 </p>
-                <button className={`font-semibold px-6 py-1 rounded-full border absolute bottom-6 right-6 ${activeBox === 'AIAgent' ? 'text-white' : 'text-gray-400 bg-gray-200'}`}>
-                  使ってみる
-                </button>
+                <Link to="/ai-agent">
+                  <button className={`font-semibold px-6 py-1 rounded-full border absolute bottom-6 right-6 ${activeBox === 'AIAgent' ? 'text-white' : 'text-gray-400 bg-gray-200'}`}>
+                    使ってみる
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -157,10 +161,10 @@ export default function MainContent() {
                     <AtSign className="h-5 w-5 text-gray-500" />
                   </button>
                   <button className="p-2 hover:bg-gray-200 rounded">
-                    <img 
-                      src={searchImg} 
-                      alt="Asset Management AI Agent Logo" 
-                      className="w-5 h-5" 
+                    <img
+                      src={searchImg}
+                      alt="Asset Management AI Agent Logo"
+                      className="w-5 h-5"
                     />
                   </button>
                 </div>
@@ -177,9 +181,9 @@ export default function MainContent() {
               </div>
             </div>
           </div>
-        </div>
-      </main>
-    </div>
+        </div >
+      </main >
+    </div >
   )
 }
 

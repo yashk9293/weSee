@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/scrape': {
-        target: 'http://scraper.weseegpt.com',
+        target: 'http://34.56.151.232:3000',
         changeOrigin: true,
       }
     }

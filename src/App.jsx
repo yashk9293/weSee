@@ -22,9 +22,7 @@ function App() {
         <Sidebar user={currentUser} />
         <Routes>
           <Route path="/" element={<MainContent />} />
-          <Route path="/chat" element={<HandleStream />} />
-          <Route path="/home" element={<Homev2Page />} />
-          <Route path="/home2" element={<HomePage />} />
+          <Route path="/ai-agent" element={<Homev2Page />} />
           <Route path="/integrations" element={<IntegrationsPage />} />
         </Routes>
       </div>
