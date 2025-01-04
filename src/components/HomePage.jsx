@@ -15,14 +15,13 @@ const ChatMessage = ({ message, isAi }) => {
           AI
         </div>
       )}
-      <div 
-        className={`max-w-[80%] rounded-2xl p-4 ${
-          isAi 
-            ? 'bg-white border border-gray-200 shadow-sm' 
+      <div
+        className={`max-w-[80%] rounded-2xl p-4 ${isAi
+            ? 'bg-white border border-gray-200 shadow-sm'
             : 'bg-purple-100 text-white'
-        }`}
+          }`}
       >
-        <div 
+        <div
           dangerouslySetInnerHTML={{ __html: message }}
           className="prose prose-sm max-w-none"
         />
@@ -62,7 +61,6 @@ export default function HomePage() {
   const [streamingMessage, setStreamingMessage] = useState('');
   const chatContainerRef = useRef(null);
   const abortControllerRef = useRef(null);
-  const isFirstResponse = useRef(true);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -120,16 +118,9 @@ export default function HomePage() {
         }
 
         // Decode and append new chunks
-        let chunk = decoder.decode(value);
-        chunk = chunk.replace(/^data:\s*/, '').replace(/Thinking\s*\.\.\./g, '');
+        const chunk = decoder.decode(value);
         currentText += chunk;
-        
-        if (isFirstResponse.current) {
-          setStreamingMessage('Thinking... ' + currentText);
-          isFirstResponse.current = false;
-        } else {
-          setStreamingMessage(currentText);
-        }
+        setStreamingMessage(currentText);
       }
     } catch (error) {
       if (error.name === 'AbortError') {
@@ -137,9 +128,9 @@ export default function HomePage() {
         return;
       }
       console.error('Error:', error);
-      setMessages(prev => [...prev, { 
-        text: "申し訳ありません。エラーが発生しました。", 
-        isAi: true 
+      setMessages(prev => [...prev, {
+        text: "申し訳ありません。エラーが発生しました。",
+        isAi: true
       }]);
     } finally {
       setIsLoading(false);
@@ -165,19 +156,19 @@ export default function HomePage() {
           </div>
         )}
 
-        <div 
+        <div
           ref={chatContainerRef}
           className="flex-1 overflow-y-auto max-w-3xl mx-auto w-full px-4"
         >
           {messages.map((message, index) => (
-            <ChatMessage 
+            <ChatMessage
               key={index}
               message={message.text}
               isAi={message.isAi}
             />
           ))}
           {streamingMessage && (
-            <ChatMessage 
+            <ChatMessage
               message={streamingMessage}
               isAi={true}
             />
@@ -220,7 +211,7 @@ export default function HomePage() {
                 placeholder="AI エージェントに質問してみましょう。"
                 className="w-full px-4 py-3 rounded-xl bg-gray-50 focus:bg-white border border-gray-200 focus:border-purple-500 outline-none transition-colors"
               />
-              <button 
+              <button
                 onClick={handleSubmit}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-purple-600 hover:text-purple-700 transition-colors"
               >
