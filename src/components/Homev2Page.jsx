@@ -32,15 +32,17 @@ export default function HomePage() {
       eventSourceRef.current = newEventSource;
 
       newEventSource.onmessage = (event) => {
-        const chunk = event.data.trim();
+        const chunk = event.data.trim()
 
-        setConversation((prev) => {
-          const updated = [...prev];
-          const lastMessage = updated[updated.length - 1];
-          lastMessage.streamingAnswer = chunk;
-          return updated;
-        });
-      };
+        setConversation(
+          (prev) => {
+            const updated = [...prev]
+            const lastMessage = updated[updated.length - 1]
+            lastMessage.streamingAnswer = chunk
+            return updated
+          }
+        )
+      }
 
       newEventSource.onerror = () => {
         newEventSource.close();
