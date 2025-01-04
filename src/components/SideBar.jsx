@@ -1,16 +1,19 @@
-import { HomeIcon, LayersIcon, LinkIcon, FileIcon, MessageSquareIcon, HelpCircleIcon } from 'lucide-react'
+import { HomeIcon, LayersIcon, Unplug , FileIcon, MessageSquareIcon } from 'lucide-react'
+import { PiGlobeSimpleFill } from "react-icons/pi";
 import { LuChevronsUpDown } from "react-icons/lu";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { IoSettingsOutline } from "react-icons/io5";
+import { MdKeyboardArrowDown, MdOutlineLiveHelp } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 import img2 from '../assets/sidebar/img2.png';
 import img3 from '../assets/sidebar/img3.png';
+// import globe from '../assets/sidebar/globe.png';
 
 function Sidebar({ user }) {
   const navItems = [
     { icon: HomeIcon, label: 'ホーム', to: '/home', active: true },
-    { icon: LayersIcon, label: 'プレイグラウンド', to: '/ai' },
-    { icon: LinkIcon, label: '外部サービス接続', to: '/integrations' },
+    { icon: PiGlobeSimpleFill , label: 'プレイグラウンド', to: '/ai', rotate: true },
+    { icon: Unplug , label: '外部サービス接続', to: '/integrations', rotate: true },
     { icon: FileIcon, label: 'ファイル', to: '/meetings' },
   ]
 
@@ -36,7 +39,7 @@ function Sidebar({ user }) {
               item.active ? 'bg-gray-200 text-purple-600' : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            <item.icon className="h-5 w-5 mr-2" />
+            <item.icon className={`h-5 w-5 mr-2 ${item.rotate ? 'rotate-45' : ''}`} />
             {item.label}
           </Link>
         ))}
@@ -94,10 +97,10 @@ function Sidebar({ user }) {
 
         <div className='mt-2'>
           <div className="border-gray-200 ">
-            <NavItem icon={<img src={img2} alt="Help Icon" className="w-5 h-2 mr-2"/>} text="設定" />
+            <NavItem icon={<IoSettingsOutline className="w-5 h-5 mr-2"/>} text="設定" />
           </div>
           <div className="border-gray-200">
-            <NavItem icon={<img src={img3} alt="Help Icon" className="w-4 h-5 mr-2"/>} text="ヘルプ" />
+            <NavItem icon={<MdOutlineLiveHelp className="w-5 h-5 mr-2"/>} text="ヘルプ" />
           </div>
         </div>
       </div>

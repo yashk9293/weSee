@@ -41,7 +41,7 @@ const Header = () => (
     <div className="flex justify-between items-center px-6 py-3">
       <div className="flex-1 flex justify-center">
         <button className="flex items-center space-x-2 px-4 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
-          <span className="text-purple-600 font-semibold">AI Agent</span>
+          <span className="text-purple-400 font-semibold">Asset AI Agent</span>
           <ChevronDown className="h-4 w-4 text-purple-600" />
         </button>
       </div>

@@ -9,7 +9,7 @@ import user from './assets/sidebar/user.png'
 
 function App() {
   const [currentUser] = useState({
-    name: 'Alex Kapawski',
+    name: 'Harsh Khanna',
     role: 'Employee',
     avatar: user
   })

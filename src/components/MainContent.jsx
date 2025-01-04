@@ -28,7 +28,7 @@ export default function MainContent() {
           {/* Centering AI Agent */}
           <div className="flex-1 flex justify-center">
             <button className="flex items-center space-x-2 px-3 py-1.5 bg-gray-100 rounded-full">
-              <span className="text-purple-400 font-semibold">AI Agent</span>
+              <span className="text-purple-400 font-semibold">Asset AI Agent</span>
               <ChevronDown className="h-4 w-4 text-purple-400" />
             </button>
           </div>
