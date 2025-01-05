@@ -13,7 +13,7 @@ const ChatLayout = () => {
   return (
     <div className="flex h-screen w-full overflow-hidden">
       {/* Left Sidebar - Navigation */}
-      <div className="w-16 bg-white flex flex-col items-center py-4 space-y-4">
+      {/* <div className="w-16 bg-white flex flex-col items-center py-4 space-y-4">
         <div className="text-indigo-500 font-semibold mb-6">✦</div>
         <HomeIcon className="w-6 h-6 text-gray-600" />
         <PiGlobeSimpleFill className="w-6 h-6 text-gray-600" />
@@ -22,7 +22,7 @@ const ChatLayout = () => {
         <Plus className="w-6 h-6 text-gray-600 p-1 rounded-md hover:bg-gray-100 border border-blue-500" />
         <div className="flex-grow" />
         <FaUserCircle className='w-6 h-6'/>
-      </div>
+      </div> */}
 
       <div className="w-px bg-gray-200" />
 
@@ -30,11 +30,11 @@ const ChatLayout = () => {
       <div className="flex flex-1 h-full">
         {/* Chat Section */}
         <div className="w-[32rem] flex flex-col">
-          <div className="p-4 border-b border-gray-200">
+          {/* <div className="p-4 border-b border-gray-200">
             <Link to="/">
               <h1 className="text-xl font-semibold text-indigo-500">Managemente®</h1>
             </Link>
-          </div>
+          </div> */}
           
           
           <div className="flex-grow overflow-y-auto p-4">
@@ -98,7 +98,7 @@ const ChatLayout = () => {
             {/* </div> */}
           </div>
 
-          <div className="flex-1 p-4">
+          <div className="flex-1 p-4 mt-[30%]">
             <div className="border-2 rounded-lg p-2 bg-white">
               <img
                 src={meeting}

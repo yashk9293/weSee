@@ -34,7 +34,7 @@ function MainApp({ currentUser }) {
         <Route path="/" element={<MainContent />} />
         <Route path="/ai-agent" element={<Homev2Page />} />
         <Route path="/integrations" element={<IntegrationsPage />} />
-        <Route path="/meetings" element={<MeetingsPage />} />
+        <Route path="/playground" element={<MeetingsPage />} />
       </Routes>
     </div>
   )

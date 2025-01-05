@@ -88,7 +88,7 @@ export default function MainContent() {
                 <p className="text-sm leading-relaxed mb-14">
                   面倒な複数のツールへの記載格納も、PLAY GROUND機能一本にお任せください!
                 </p>
-                <Link to="/home">
+                <Link to="/playground">
                   <button className={`font-semibold px-6 py-1 rounded-full border absolute bottom-6 right-6 ${activeBox === 'PlayGround' ? 'text-white' : 'text-gray-400 bg-gray-200'}`}>
                     使ってみる
                   </button>
