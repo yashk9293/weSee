@@ -10,64 +10,65 @@ export default function HomePage() {
   const [isStreaming, setIsStreaming] = useState(false);
   const abortControllerRef = useRef(null);
 
-  // const handleSubmit = async () => {
-  //   if (!message.trim() || isStreaming) return;
+  function extractAnswers(htmlText) {
+    // Helper function to check if a string contains Japanese characters
+    function hasJapanese(text) {
+      // This regex matches hiragana, katakana, and kanji
+      return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf]/.test(text);
+    }
 
-  //   // Cleanup previous request if exists
-  //   if (abortControllerRef.current) {
-  //     abortControllerRef.current.abort();
-  //   }
+    // Helper function to trim <br> tags from start and end
+    function trimBrTags(html) {
+      return html
+        .replace(/^(?:<br>)+|(?:<br>)+$/g, '') // Remove leading/trailing <br> tags
+        .trim(); // Remove any whitespace
+    }
 
-  //   const newChatMessage = {
-  //     question: message,
-  //     streamingAnswer: "",
-  //     isAi: true,
-  //   };
+    // Helper function to remove unwanted text
+    function removeUnwantedText(html) {
+      const unwantedTexts = [
+        "I'm sorry, but I cannot provide a direct translation of the text you provided due to the limitations of the current system.",
+        ",I'm sorry, but I cannot provide a translation of the text you provided due to the limitations of the current system. Thank you for understanding.",
+        "I'm sorry, but I cannot provide a detailed answer in Japanese based on the given context. Thank you for understanding."
+      ];
 
-  //   setConversation(prev => [...prev, newChatMessage]);
-  //   setMessage("");
-  //   setLoading(true);
-  //   setIsStreaming(true);
+      let cleanedHtml = html;
+      unwantedTexts.forEach(text => {
+        cleanedHtml = cleanedHtml.replace(new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '');
+      });
 
-  //   // Create new AbortController for this request
-  //   abortControllerRef.current = new AbortController();
+      // Remove empty paragraphs
+      cleanedHtml = cleanedHtml.replace(/<p>\s*<\/p>/g, '');
 
-  //   try {
-  //     const response = await fetch(`/scrape?message=${encodeURIComponent(message)}`, {
-  //       signal: abortControllerRef.current.signal
-  //     });
+      return cleanedHtml.trim();
+    }
 
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
+    // Split by Answer marker in bold tags
+    const parts = htmlText.split('<b>Answer</b>');
 
-  //     // Get the complete response text
-  //     let data = await response.text();
-  //     data = data.split('data:')
-  //     data = data[data.length - 1]
+    // Remove the first part (everything before first Answer)
+    parts.shift();
 
-  //     // Update conversation with complete response
-  //     setConversation(prev => {
-  //       const updated = [...prev];
-  //       const lastMessage = updated[updated.length - 1];
-  //       lastMessage.streamingAnswer = data;
-  //       return updated;
-  //     });
+    // Clean up each answer and filter out empty strings and Japanese text
+    const answers = parts
+      .map(part => {
+        // Find the index of the next Main question header
+        const nextQuestionIndex = part.indexOf('<h4>Main question</h4>');
 
-  //   } catch (err) {
-  //     if (err.name === 'AbortError') {
-  //       console.log('Fetch aborted');
-  //     } else {
-  //       console.error("Connection error:", err);
-  //     }
-  //   } finally {
-  //     setLoading(false);
-  //     setIsStreaming(false);
-  //     abortControllerRef.current = null;
-  //   }
-  // };
+        // If Main question exists, only take content up to that point
+        const content = nextQuestionIndex !== -1
+          ? part.substring(0, nextQuestionIndex)
+          : part;
 
-  // Cleanup on component unmount
+        // Apply all cleaning operations
+        return trimBrTags(removeUnwantedText(content));
+      })
+      .filter(answer => answer.length > 0)
+      .filter(answer => !hasJapanese(answer)); // Filter out answers containing Japanese text
+
+    return answers;
+  }
+
 
   const handleSubmit = async () => {
     if (!message.trim() || isStreaming) return;
@@ -110,12 +111,15 @@ export default function HomePage() {
         done = readerDone;
 
         if (value) {
-          const chunk = decoder.decode(value);
+          let chunk = decoder.decode(value);
 
           setConversation((prev) => {
             const updated = [...prev];
             const lastMessage = updated[updated.length - 1];
-            lastMessage.streamingAnswer = chunk.split('data:')[1]; // Replace with the latest chunk
+            chunk = chunk.split('data:')[1]; // Replace with the latest chunk
+            if (chunk !== "<p>Thinking ...</p>")
+              chunk = extractAnswers(chunk)
+            lastMessage.streamingAnswer = chunk
             return updated;
           });
         }

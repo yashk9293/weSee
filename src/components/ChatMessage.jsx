@@ -1,6 +1,7 @@
 import React from "react";
 
 const ChatMessage = ({ question, streamingAnswer, isAi }) => {
+  console.log(streamingAnswer)
   return (
     <div className="mb-6">
       {/* Question from the user */}
@@ -23,7 +24,7 @@ const ChatMessage = ({ question, streamingAnswer, isAi }) => {
             className="max-w-[80%] bg-white border border-gray-200 rounded-2xl p-4"
           >
             {/* Show loader while streamingAnswer is empty */}
-            {streamingAnswer ? (
+            {streamingAnswer?.length > 0 ? (
               <div
                 dangerouslySetInnerHTML={{ __html: streamingAnswer }}
               />
